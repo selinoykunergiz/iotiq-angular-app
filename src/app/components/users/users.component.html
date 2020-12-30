@@ -80,7 +80,7 @@
 
         <div class="md-form mb-5">
           <mdb-icon fas icon="city" class="prefix grey-text"></mdb-icon>
-          <select class="browser-default custom-select city" [formControl]="city" [(ngModel)]="users.city"
+          <select class="browser-default custom-select city" [formControl]="city" [(ngModel)]="users.address.city"
             (change)="onSelectCity($event)">
             <option [ngValue]="user.address.city" *ngFor="let user of usersList">{{user.address.city}}</option>
           </select>
@@ -94,7 +94,7 @@
 
         <div class="md-form mb-5" *ngIf="this.citySelected == true">
           <mdb-icon fas icon="barcode" class="prefix grey-text"></mdb-icon>
-          <select class="browser-default custom-select city" [formControl]="zipcode" [(ngModel)]="users.zipcode">
+          <select class="browser-default custom-select city" [formControl]="zipcode" [(ngModel)]="users.address.zipcode">
             <option [ngValue]="code.address.zipcode" *ngFor="let code of this.zipKodList">{{code.address.zipcode}}
             </option>
           </select>

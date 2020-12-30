@@ -4,6 +4,7 @@ import { TodosModel, UsersModel } from 'src/app/models/_index';
 import { TodosService, UsersService } from 'src/app/services/_index';
 import { ModalDirective } from 'angular-bootstrap-md/lib/free/modals/modal.directive';
 import { Constants } from '../../constants';
+import { address } from 'src/app/models/users.model';
 
 @Component({
   selector: 'app-users',
@@ -26,6 +27,7 @@ export class UsersComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.users.address = new address();
     this.getTodosList();
 
     this.validatingForm = new FormGroup({
