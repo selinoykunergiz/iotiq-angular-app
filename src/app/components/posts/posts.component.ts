@@ -47,7 +47,6 @@ export class PostsComponent implements OnInit {
   }
 
   openDetailBody(id) {
-    debugger
     this.id = id;
     this.idList = this.postsList.filter((id) => id.id == this.id);
     if (this.idList) {
