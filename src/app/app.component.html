@@ -1,0 +1,21 @@
+<!--header(navbar), sidebar ve footer mdb angular uı ile yapmadım,
+     html ve scss nasıl kullandığımı daha iyi ifade edebilmek adına.-->
+<header>
+    <button (click)="toggleMenu()">
+        <mdb-icon fas icon="bars"></mdb-icon>
+    </button>
+    <a href="/users">Angular App</a>
+</header>
+<div class="app">
+    <aside *ngIf="this.isMenuActive">
+        <ul>
+            <li><a [routerLink]="'/users'" routerLinkActive="active"><mdb-icon fas icon="user"></mdb-icon><span>Users</span></a></li>
+            <li><a [routerLink]="'/todos'" routerLinkActive="active"><mdb-icon fas icon="clipboard-check"></mdb-icon><span>Todos</span></a></li>
+            <li><a [routerLink]="'/posts'" routerLinkActive="active"><mdb-icon fas icon="book-open"></mdb-icon><span>Posts</span></a></li>
+        </ul>
+    </aside>
+    <main>
+        <router-outlet></router-outlet>
+    </main>
+</div>
+<footer><a href="https://selinoykunergiz.com">Selin Öykü Nergiz</a></footer>

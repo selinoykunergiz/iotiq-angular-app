@@ -1,0 +1,100 @@
+<!--todos table-->
+<div class="table-responsive">
+    <button mdbBtn type="button" (click)="openNewTodo()" color="warning" class="btn-sm warning-btn" mdbWavesEffect>New
+        Todo</button>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Username</th>
+                <th scope="col">Title</th>
+                <th scope="col">Complated</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr mdbTableCol *ngFor="let newTodo of todosList">
+                <td>{{newTodo.username}}</td>
+                <td>{{newTodo.title}}</td>
+                <td *ngIf="newTodo.completed">
+                    <mdb-icon fas icon="check-circle"></mdb-icon>
+                </td>
+                <td *ngIf="!newTodo.completed">
+                    <mdb-icon fas icon="times"></mdb-icon>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<!--New Todos Modal-->
+<div mdbModal #createTodos="mdbModal" class="modal fade left" id="createTodos" tabindex="-1" role="dialog"
+    aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <h4 class="modal-title w-100 font-weight-bold">Add Todos</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"
+                    (click)="createTodos.hide()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body mx-3">
+                <div class="md-form mb-5">
+                    <mdb-icon fas icon="user" class="prefix grey-text"></mdb-icon>
+                    <select class="browser-default custom-select users" [formControl]="userId"
+                        [(ngModel)]="todos.userId">
+                        <option [ngValue]="user.id" *ngFor="let user of usersList">{{user.username}}
+                        </option>
+                    </select>
+                    <mdb-error class="msg-error" *ngIf="userId.invalid && (userId.dirty || userId.touched)">
+                        Select User!
+                    </mdb-error>
+                    <mdb-success class="msg-success" *ngIf="userId.valid && (userId.dirty || userId.touched)">
+                        User selection is valid!&nbsp;<mdb-icon fas icon="check-circle"></mdb-icon>
+                    </mdb-success>
+                </div>
+
+                <div class="md-form mb-5">
+                    <mdb-icon fas icon="book" class="prefix grey-text"></mdb-icon>
+                    <input type="text" id="orangeForm-title" class="form-control" [formControl]="title" mdbInput
+                        mdbValidate [(ngModel)]="todos.title" minlength="20">
+                    <label for="orangeForm-title">Title</label>
+                    <mdb-error class="msg-error" *ngIf="title.invalid && (title.dirty || title.touched)">
+                        Enter title!!
+                    </mdb-error>
+                    <mdb-success *ngIf="title.valid && (title.dirty || title.touched)" class="msg-success">
+                        Title is valid!&nbsp;<mdb-icon fas icon="check-circle"></mdb-icon>
+                    </mdb-success>
+                </div>
+            </div>
+            <div class="modal-footer d-flex justify-content-center">
+                <button mdbBtn color="deep-orange" class="waves-light" (click)="addTodo()" mdbWavesEffect
+                    [disabled]="!validatingForm.valid ">Add Todo</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--success modal event-->
+<div mdbModal #frame="mdbModal" class="modal fade" id="frameModalTop" tabindex="-1" role="dialog"
+    aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-notify modal-success" role="document">
+        <div class="modal-content">
+            <div class="modal-header" style="height: 60px;">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="frame.hide()">
+                    <span aria-hidden="true" class="white-text">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="text-center">
+                    <mdb-icon fas icon="check" size="4x" class="mb-3 animated rotateIn"></mdb-icon>
+                    <p class="modal-event">{{this.message}}</p>
+                </div>
+            </div>
+            <div class="modal-footer justify-content-center">
+                <a type="button" mdbBtn color="primary" outline="true" class="waves-effect" mdbWavesEffect
+                    (click)="frame.hide()" data-dismiss="modal">Kapat</a>
+            </div>
+        </div>
+    </div>
+</div>

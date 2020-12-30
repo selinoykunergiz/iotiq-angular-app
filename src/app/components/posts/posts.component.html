@@ -1,0 +1,52 @@
+<!--posts table-->
+<div class="table-responsive">
+    <!-- <button mdbBtn type="button" (click)="openNewTodo()" color="warning" class="btn-sm" mdbWavesEffect>New
+        Todo</button> -->
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Username</th>
+                <th scope="col">Title</th>
+                <th scope="col">Body</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr mdbTableCol *ngFor="let posts of postsList">
+                <td>{{posts.username}}</td>
+                <td>{{posts.title}}</td>
+                <td>
+                    <button mdbBtn type="button" (click)="openDetailBody(posts.id)" color="warning"
+                        class="btn-sm detail-btn" mdbWavesEffect>
+                        <mdb-icon fas icon="search"></mdb-icon>
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<!--New Todos Modal-->
+<div mdbModal #postBody="mdbModal" class="modal fade left" id="postBody" tabindex="-1" role="dialog"
+    aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header text-center">
+                <h4 class="modal-title w-100 font-weight-bold">Post Body</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="postBody.hide()">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body mx-3">
+                <div *ngFor="let posts of this.idList">
+                    <p>{{posts.body}}</p>
+                </div>
+
+            </div>
+            <div class="modal-footer justify-content-center">
+                <a type="button" mdbBtn color="primary" outline="true" class="waves-effect" mdbWavesEffect
+                    (click)="postBody.hide()" data-dismiss="modal">Kapat</a>
+            </div>
+        </div>
+    </div>
+</div>

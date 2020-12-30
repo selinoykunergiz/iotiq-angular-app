@@ -1,0 +1,140 @@
+<!--Users table-->
+<div class="table-responsive">
+  <button mdbBtn type="button" (click)="openCreateUser()" color="warning" class="btn-sm warning-btn" mdbWavesEffect>New
+    User</button>
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Name</th>
+        <th scope="col">Username</th>
+        <th scope="col">Email</th>
+        <th scope="col">Company Name</th>
+        <th scope="col">City</th>
+        <th scope="col">Todo Count</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr mdbTableCol *ngFor="let user of usersList">
+        <td>{{user.name}}</td>
+        <td>{{user.username}}</td>
+        <td>{{user.email}}</td>
+        <td>{{user.company.name}}</td>
+        <td>{{user.address.city}}</td>
+        <td>{{user.todoCount}}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!--New Users Modal-->
+<div mdbModal #createUser="mdbModal" class="modal fade left" id="createUser" tabindex="-1" role="dialog"
+  aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Create User</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="createUser.hide()">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+          <mdb-icon fas icon="user" class="prefix grey-text"></mdb-icon>
+          <input type="text" id="orangeForm-name" class="form-control" [formControl]="name" mdbInput mdbValidate
+            [(ngModel)]="users.name">
+          <label for="orangeForm-name">Your name</label>
+          <mdb-error class="msg-error" *ngIf="name.invalid && (name.dirty || name.touched)">
+            Enter the letter for the name section!
+          </mdb-error>
+          <mdb-success *ngIf="name.valid && (name.dirty || name.touched)" class="msg-success">
+            Namespace is valid!&nbsp;<mdb-icon fas icon="check-circle"></mdb-icon>
+          </mdb-success>
+        </div>
+
+        <div class="md-form mb-5">
+          <mdb-icon fas icon="envelope" class="prefix grey-text"></mdb-icon>
+          <input type="email" id="orangeForm-email" class="form-control" [formControl]="email" mdbInput mdbValidate
+            [(ngModel)]="users.email">
+          <label for="orangeForm-email">Your email</label>
+          <mdb-error class="msg-error" *ngIf="email.invalid && (email.dirty || email.touched)">
+            Enter a valid e-mail address!
+          </mdb-error>
+          <mdb-success class="msg-success" *ngIf="email.valid && (email.dirty || email.touched)">
+            e-mail is valid!&nbsp;<mdb-icon fas icon="check-circle"></mdb-icon>
+          </mdb-success>
+        </div>
+
+        <div class="md-form mb-5">
+          <mdb-icon fas icon="phone" class="prefix grey-text"></mdb-icon>
+          <input type="text" id="orangeForm-phone" class="form-control" [formControl]="phone"
+            (keypress)="isNumberKey($event)" mdbInput mdbValidate maxlength="11" minlength="11"
+            [(ngModel)]="users.phone">
+          <label for="orangeForm-phone">Your phone</label>
+          <mdb-error class="msg-error" *ngIf="phone.invalid && (phone.dirty || phone.touched)">
+            Enter numbers for the phone part!
+          </mdb-error>
+          <mdb-success class="msg-success" *ngIf="phone.valid && (phone.dirty || phone.touched)">
+            The phone number is valid!&nbsp;<mdb-icon fas icon="check-circle"></mdb-icon>
+          </mdb-success>
+        </div>
+
+        <div class="md-form mb-5">
+          <mdb-icon fas icon="city" class="prefix grey-text"></mdb-icon>
+          <select class="browser-default custom-select city" [formControl]="city" [(ngModel)]="users.city"
+            (change)="onSelectCity($event)">
+            <option [ngValue]="user.address.city" *ngFor="let user of usersList">{{user.address.city}}</option>
+          </select>
+          <mdb-error class="msg-error" *ngIf="city.invalid && (city.dirty || city.touched)">
+            Select a city!
+          </mdb-error>
+          <mdb-success class="msg-success" *ngIf="city.valid && (city.dirty || city.touched)">
+            City selection is valid!&nbsp;<mdb-icon fas icon="check-circle"></mdb-icon>
+          </mdb-success>
+        </div>
+
+        <div class="md-form mb-5" *ngIf="this.citySelected == true">
+          <mdb-icon fas icon="barcode" class="prefix grey-text"></mdb-icon>
+          <select class="browser-default custom-select city" [formControl]="zipcode" [(ngModel)]="users.zipcode">
+            <option [ngValue]="code.address.zipcode" *ngFor="let code of this.zipKodList">{{code.address.zipcode}}
+            </option>
+          </select>
+          <mdb-error class="msg-error" *ngIf="zipcode.invalid && (zipcode.dirty || zipcode.touched)">
+            Zipcode seçiniz!
+          </mdb-error>
+          <mdb-success class="msg-success" *ngIf="zipcode.valid && (zipcode.dirty || zipcode.touched)">
+            Zipcode seçimi geçerli!&nbsp;<mdb-icon fas icon="check-circle"></mdb-icon>
+          </mdb-success>
+        </div>
+
+      </div>
+      <div class="modal-footer d-flex justify-content-center">
+        <button mdbBtn color="deep-orange" class="waves-light" (click)="getCreateUser()" mdbWavesEffect
+          [disabled]="!validatingForm.valid ">Create User</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!--success modal event-->
+<div mdbModal #frame="mdbModal" class="modal fade" id="frameModalTop" tabindex="-1" role="dialog"
+  aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-notify modal-success" role="document">
+    <div class="modal-content">
+      <div class="modal-header" style="height: 60px;">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="frame.hide()">
+          <span aria-hidden="true" class="white-text">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="text-center">
+          <mdb-icon fas icon="check" size="4x" class="mb-3 animated rotateIn"></mdb-icon>
+          <p class="modal-event">{{this.message}}</p>
+        </div>
+      </div>
+      <div class="modal-footer justify-content-center">
+        <a type="button" mdbBtn color="primary" outline="true" class="waves-effect" mdbWavesEffect
+          (click)="frame.hide()" data-dismiss="modal">Kapat</a>
+      </div>
+    </div>
+  </div>
+</div>
